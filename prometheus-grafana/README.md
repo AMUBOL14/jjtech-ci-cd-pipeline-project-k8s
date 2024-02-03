@@ -38,8 +38,9 @@ kubectl get all -n prometheus
 
 6. Edit the prometheus and grafana services by changing service type to **LoadBalancer**
 ```bash
-kubectl edit svc monitoring-grafana
-kubectl edit svc monitoring-prometheus
+kubectl edit svc monitoring-grafana -n (namespace)
+kubectl edit svc monitoring-kube-prometheus-prometheus -n (namespace)
+k get all -n prometheus or k get svc -n prometheus
 ```
 7. To access grafana, grab Loadbalancer endpoint for grafana and run on your browser of choice
 username: admin
@@ -48,6 +49,7 @@ password: prom-operator
 The secret can be retrieved by running
 ```bash 
 kubectl get secret monitoring-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+kubectl get secret monitoring-grafana -n prometheus -o jsonpath="{.data.admin-password}" | base64
 ```
 
 8. To access prometheus, grab prometheus loadbalancer endpoint and run on browser. Add **:9090**
